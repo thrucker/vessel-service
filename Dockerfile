@@ -9,10 +9,9 @@ COPY go.sum .
 
 RUN go mod download
 
-COPY main.go .
-COPY proto/vessel/vessel.pb.go ./proto/vessel/vessel.pb.go
+COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o shippy-service-vessel
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o shippy-service-vessel main.go datastore.go handler.go repository.go
 
 FROM alpine:latest
 

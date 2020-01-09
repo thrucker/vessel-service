@@ -3,6 +3,7 @@ module github.com/thrucker/vessel-service
 go 1.13
 
 require (
+	github.com/DataDog/zstd v1.4.4 // indirect
 	github.com/coreos/etcd v3.3.18+incompatible // indirect
 	github.com/gogo/protobuf v1.3.1 // indirect
 	github.com/golang/protobuf v1.3.2
@@ -10,6 +11,9 @@ require (
 	github.com/micro/go-micro v1.18.0
 	github.com/miekg/dns v1.1.25 // indirect
 	github.com/nats-io/jwt v0.3.2 // indirect
+	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
+	github.com/xdg/stringprep v1.0.0 // indirect
+	go.mongodb.org/mongo-driver v1.2.1
 	go.uber.org/atomic v1.5.1 // indirect
 	go.uber.org/multierr v1.4.0 // indirect
 	go.uber.org/zap v1.13.0 // indirect

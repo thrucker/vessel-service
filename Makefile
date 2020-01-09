@@ -8,7 +8,7 @@ proto: proto/vessel/vessel.pb.go
 proto/vessel/vessel.pb.go: proto/vessel/vessel.proto
 	protoc -I. --go_out=plugins=micro:. proto/vessel/vessel.proto
 
-.build/.docker-image.stamp: Dockerfile main.go proto/vessel/vessel.pb.go go.mod go.sum
+.build/.docker-image.stamp: Dockerfile main.go proto/vessel/vessel.pb.go go.mod go.sum datastore.go handler.go repository.go
 	docker build -t shippy-service-vessel .
 	mkdir -p $(dir $@)
 	touch $@
