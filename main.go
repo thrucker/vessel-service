@@ -36,15 +36,6 @@ func main() {
 	repository := &MongoRepository{vesselCollection}
 	h := &handler{repository}
 
-	//vessels := []*pb.Vessel{
-	//	&pb.Vessel{
-	//		Id:                   "vessel001",
-	//		Name:                 "Boaty McBoatface",
-	//		Capacity:             500,
-	//		MaxWeight:            200000,
-	//	},
-	//}
-
 	pb.RegisterVesselServiceHandler(srv.Server(), h)
 
 	if err := srv.Run(); err != nil {

@@ -3,40 +3,45 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/thrucker/vessel-service/proto/vessel"
+	pb "github.com/thrucker/vessel-service/proto/vessel"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"log"
 )
 
 type repository interface {
-	FindAvailable(specification *vessel.Specification) (*vessel.Vessel, error)
-	Create(vessel *vessel.Vessel) error
+	FindAvailable(specification *pb.Specification) (*pb.Vessel, error)
+	Create(vessel *pb.Vessel) error
 }
 
 type MongoRepository struct {
 	collection *mongo.Collection
 }
 
-func (repo *MongoRepository) FindAvailable(spec *vessel.Specification) (*vessel.Vessel, error) {
-	cur, err := repo.collection.Find(context.Background(), nil, nil)
+func (repo *MongoRepository) FindAvailable(spec *pb.Specification) (*pb.Vessel, error) {
+	filter := bson.M{
+		"capacity":  bson.M{"$gte": spec.Capacity},
+		"maxweight": bson.M{"$gte": spec.MaxWeight},
+	}
+	cur, err := repo.collection.Find(context.Background(), filter)
 
 	if err != nil {
+		log.Println("error finding vessel")
 		return nil, err
 	}
 
 	for cur.Next(context.Background()) {
-		var vessel *vessel.Vessel
+		var vessel *pb.Vessel
 		if err := cur.Decode(&vessel); err != nil {
 			return nil, err
 		}
-		if spec.Capacity <= vessel.Capacity && spec.MaxWeight <= vessel.MaxWeight {
-			return vessel, nil
-		}
+		return vessel, nil
 	}
 
-	return nil, errors.New("no vessel found by that spec")
+	return nil, errors.New("no pb found by that spec")
 }
 
-func (repo *MongoRepository) Create(vessel *vessel.Vessel) error {
+func (repo *MongoRepository) Create(vessel *pb.Vessel) error {
 	_, err := repo.collection.InsertOne(context.Background(), vessel)
 	return err
 }

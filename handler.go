@@ -3,6 +3,7 @@ package main
 import (
 	pb "github.com/thrucker/vessel-service/proto/vessel"
 	"golang.org/x/net/context"
+	"log"
 )
 
 type handler struct {
@@ -10,6 +11,7 @@ type handler struct {
 }
 
 func (h *handler) FindAvailable(ctx context.Context, req *pb.Specification, res *pb.Response) error {
+	log.Println("Trying to find vessel")
 	vessel, err := h.repository.FindAvailable(req)
 	if err != nil {
 		return err
