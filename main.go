@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/micro/go-micro"
+	"github.com/thrucker/vessel-service/id"
 	pb "github.com/thrucker/vessel-service/proto/vessel"
 	"log"
 	"os"
@@ -15,7 +16,8 @@ const (
 
 func main() {
 	srv := micro.NewService(
-		micro.Name("shippy.service.vessel"),
+		micro.Name(id.VesselServiceId),
+		micro.Version("latest"),
 	)
 
 	srv.Init()
